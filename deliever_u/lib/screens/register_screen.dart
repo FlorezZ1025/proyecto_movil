@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Navegar de regreso a la pantalla de login
                   context.pop();
                 },
-                child: const  Text('¿Ya tienes cuenta? Inicia Sesión'),
+                child: const Text('¿Ya tienes cuenta? Inicia Sesión'),
               ),
           
             ],

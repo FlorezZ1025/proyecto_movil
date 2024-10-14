@@ -62,7 +62,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: _login,
+              // onPressed: _login,
+              onPressed:() =>{
+                context.go('/home')
+                },
               child:const Text('Iniciar Sesión'),
             ),
             TextButton(
