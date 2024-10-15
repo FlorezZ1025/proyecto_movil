@@ -12,18 +12,18 @@ class OrderScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Text('Especifica tu ubicación'),
+            const Text('Especifica tu ubicación', style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),),
             TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+                  borderRadius: BorderRadius.circular(8.0),
                   borderSide: const BorderSide(
                     color: Colors.black, // Color del borde
                     width: 10.0, // Grosor del borde
                   ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
-                    vertical: 40.0, horizontal: 10.0), // Aumentar la altura
+                    vertical: 40.0, horizontal: 10.0),
               ),
             )
           ],

@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              //Lógica para la pantalla de usuario
+              //Ir a la pantalla de usuario
             },
           )
         ],

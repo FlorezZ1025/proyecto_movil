@@ -10,16 +10,13 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _StoreScreenState extends State<StoreScreen> {
-  // Lista para almacenar los productos añadidos al carrito
   final List<String> _cart = [];
 
-  // Función para añadir productos al carrito
   void _addToCart(String product) {
     setState(() {
-      _cart.add(product); // Añadir producto al carrito
+      _cart.add(product);
     });
 
-    // Mostrar un mensaje confirmando que el producto fue añadido al carrito
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('$product añadido al carrito'),
@@ -34,7 +31,6 @@ class _StoreScreenState extends State<StoreScreen> {
       appBar: AppBar(
         title: const Text('Donde Tavo'),
         actions: [
-          // Ícono para ver el carrito
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
@@ -86,7 +82,7 @@ class _StoreScreenState extends State<StoreScreen> {
           const SizedBox(height: 16.0),
           Expanded(
             child: GridView.builder(
-              itemCount: 20, // Cantidad de productos disponibles
+              itemCount: 20, 
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, // Número de columnas
                 childAspectRatio:
@@ -100,7 +96,6 @@ class _StoreScreenState extends State<StoreScreen> {
 
                 return GestureDetector(
                   onTap: () {
-                    // Llama a la función para añadir el producto al carrito
                     _addToCart(productName);
                   },
                   child: Column(
