@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/store_card.dart'; // Importa tu StoreCard
+import '../widgets/store_card.dart';
+import '../utils/colors.dart';
+
 
 class AllStoresScreen extends StatelessWidget {
-  // Simulación de datos de tiendas
+  
   final List<Map<String, String>> stores = [
     {
       'storeName': 'Cafetería Central',
@@ -76,9 +78,10 @@ class AllStoresScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tiendas Disponibles'),
+        title: const Text('Tiendas Disponibles', style: TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.w500),),
+        backgroundColor: WidgetStateColor.transparent,
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: AppColors.secondaryColor,
       
       body: Padding(
         padding: const EdgeInsets.all(8.0),

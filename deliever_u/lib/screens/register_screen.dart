@@ -1,3 +1,4 @@
+import 'package:rappi_u/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service_mock.dart';
@@ -49,9 +50,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         title: const Center(child: Text('Registro')),
       ),
+      backgroundColor: AppColors.tertiaryColor,
       body: Center(
       
         child: SingleChildScrollView(
@@ -67,28 +70,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _emailController,
                 decoration: const InputDecoration(
                   labelText: 'Correo electrónico',
-                  icon:Icon(Icons.email)),
+                  icon:Icon(Icons.email, color: AppColors.red,),
+                  floatingLabelStyle: TextStyle(color: AppColors.red),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.red)
+                  )),
+        
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
                   labelText: 'Nombre',
-                  icon: Icon(Icons.person)),
+                  icon: Icon(Icons.person, color: AppColors.red,),
+                  floatingLabelStyle: TextStyle(color: AppColors.red),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.red)
+                  )),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
                 decoration: const InputDecoration(
                   labelText: 'Celular',
-                  icon: Icon(Icons.phone_iphone_rounded)),
+                  icon: Icon(Icons.phone_iphone_rounded, color: AppColors.red,),
+                  floatingLabelStyle: TextStyle(color: AppColors.red),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.red)
+                  )),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   labelText: 'Contraseña',
-                  icon: Icon(Icons.lock)),
+                  icon: Icon(Icons.lock, color: AppColors.red,),
+                  floatingLabelStyle: TextStyle(color: AppColors.red),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.red)
+                  )),
                 obscureText: true,
               ),
               const SizedBox(height: 16),
@@ -96,7 +116,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(
                   labelText: 'Confirmar contraseña',
-                  icon: Icon(Icons.password_sharp)),
+                  icon: Icon(Icons.password_sharp, color: AppColors.red,),
+                  floatingLabelStyle: TextStyle(color: AppColors.red),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.red)
+                  )),
                 obscureText: true,
               ),
               const SizedBox(height: 16),
@@ -108,16 +132,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _register,
-                child: const Text('Registrarse'),
+                child: const Text('Registrarse', style: TextStyle(color: AppColors.black)),
               ),
               TextButton(
                 onPressed: () {
-                  // Navegar de regreso a la pantalla de login
                   context.pop();
                 },
-                child: const Text('¿Ya tienes cuenta? Inicia Sesión'),
+                child: const Text('¿Ya tienes cuenta? Inicia Sesión', style: TextStyle(color: AppColors.black)),
               ),
-          
             ],
           ),
         ),

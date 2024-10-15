@@ -9,13 +9,23 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DelieverU'),
-        actions: <Widget>[IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: (){
-            //Lógica para la pantalla de usuario
-          },)],
-
+        leading: Builder(
+    builder: (BuildContext context) {
+      return IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () {context.push('/'); }
+      );
+    },
+  ),
+        title: const Text('DelieverU'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              //Lógica para la pantalla de usuario
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
