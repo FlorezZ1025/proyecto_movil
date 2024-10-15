@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class StoreCard extends StatelessWidget {
   final String storeName;
@@ -20,7 +21,7 @@ class StoreCard extends StatelessWidget {
         title: Text(storeName),
         subtitle: Text(description),
         onTap: () {
-          // Lógica para ir a la pantalla de productos de la tienda
+          context.push('/store');
         },
       ),
     );

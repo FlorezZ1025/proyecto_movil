@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/store_screen.dart';
 
 final GoRouter router = GoRouter(
   routes: [
@@ -18,6 +19,11 @@ final GoRouter router = GoRouter(
       path: '/home',
       builder: (context, state) => HomeScreen(),
     ),
+    GoRoute(
+      path: '/store',
+      builder: (context, state) => StoreScreen(),
+    )
+    ,
     GoRoute(
       path: '/stores',
       builder: (context, state) => AllStoresScreen(),
