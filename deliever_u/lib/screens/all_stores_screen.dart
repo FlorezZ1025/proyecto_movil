@@ -22,22 +22,33 @@ class AllStoresScreen extends StatelessWidget {
       backgroundColor: AppColors.tertiaryColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          itemCount: stores.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Número de columnas
-            childAspectRatio: 3 / 2, // Proporción del ancho/alto de cada ítem
-            crossAxisSpacing: 2, // Espacio entre columnas
-            mainAxisSpacing: 2, // Espacio entre filas
-          ),
-          itemBuilder: (context, index) {
-            final store = stores[index];
-            return StoreCard(
-              storeName: store['storeName']!,
-              description: store['description']!,
-              image: '',
-            );
-          },
+        child: Column(
+          children: [
+            const TextField(
+              decoration: InputDecoration(labelText: 'Buscar por nombre', border: OutlineInputBorder()),
+             
+            ),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: GridView.builder(
+                itemCount: stores.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Número de columnas
+                  childAspectRatio: 3 / 2, // Proporción del ancho/alto de cada ítem
+                  crossAxisSpacing: 2, // Espacio entre columnas
+                  mainAxisSpacing: 2, // Espacio entre filas
+                ),
+                itemBuilder: (context, index) {
+                  final store = stores[index];
+                  return StoreCard(
+                    storeName: store['storeName']!,
+                    description: store['description']!,
+                    image: '',
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
