@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:rappi_u/screens/order_screen.dart';
 import 'screens/all_stores_screen.dart';
 import 'package:go_router/go_router.dart'; 
 import 'screens/home_screen.dart';
@@ -27,6 +29,11 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/stores',
       builder: (context, state) => AllStoresScreen(),
-    )
+    ),
+    GoRoute(
+      path: '/order',
+      builder: (context,state)=> OrderScreen(),
+      ),
+
   ],
 );
