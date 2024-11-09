@@ -6,7 +6,7 @@ class StoreCard extends StatelessWidget {
   final String description;
   final String image; 
 
-  StoreCard({
+  const StoreCard({super.key, 
     required this.storeName,
     required this.description,
     required this.image,

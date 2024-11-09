@@ -1,10 +1,16 @@
 import 'router.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+      url: 'https://ntfdosxopxbqukesblkc.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50ZmRvc3hvcHhicXVrZXNibGtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk1Mzk4NzMsImV4cCI6MjA0NTExNTg3M30.dL64ZsfrfwHLaIvWsk0Bdiji3YwBRZCRFwQixNZWrbY');
   runApp(const MyApp());
 }
+final SupabaseClient supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +23,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-    routerConfig: router,
+      routerConfig: router,
+    );
+  }
+}
+
+extension ContextExtension on BuildContext {
+  void showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError
+            ? Theme.of(this).colorScheme.error
+            : Theme.of(this).snackBarTheme.backgroundColor,
+      ),
     );
   }
 }

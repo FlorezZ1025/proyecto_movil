@@ -3,10 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:rappi_u/utils/colors.dart';
 
 class StoreScreen extends StatefulWidget {
-  StoreScreen({super.key});
+  const StoreScreen({super.key});
 
   @override
-  _StoreScreenState createState() => _StoreScreenState();
+  State<StoreScreen> createState() => _StoreScreenState();
 }
 
 class _StoreScreenState extends State<StoreScreen> {
