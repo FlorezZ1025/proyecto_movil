@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rappi_u/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service_mock.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _message;
 
-  void _login() async {
+  void _signInWithEmail() async {
     final email = _emailController.text;
     final password = _passwordController.text;
 
@@ -29,11 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
-    final result = await _authService.login(email, password);
+    try{
+        final AuthResponse response = await supabase.auth.signInWithPassword(email: email, password: password);
+        final Session? session = response.session;
+        final User? user = response.user;
 
-    setState(() {
-      _message = result;
-    });
+    }catch(e){
+      setState(() {
+        _message = "Error al iniciar sesión";
+      });
+    }
+
+
+ 
   }
 
   @override

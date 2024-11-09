@@ -11,11 +11,11 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
      path: '/',
-      builder: (context, state) => LoginScreen(),
+      builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
       path: '/register',
-      builder: (context, state) => RegisterScreen(),
+      builder: (context, state) => const RegisterScreen(),
     ),
     GoRoute(
       path: '/home',
@@ -23,7 +23,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/store',
-      builder: (context, state) => StoreScreen(),
+      builder: (context, state) => const StoreScreen(),
     )
     ,
     GoRoute(
@@ -32,7 +32,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/order',
-      builder: (context,state)=> OrderScreen(),
+      builder: (context,state)=> const OrderScreen(),
       ),
 
   ],
