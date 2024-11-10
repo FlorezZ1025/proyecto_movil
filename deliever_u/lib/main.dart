@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'router.dart';
 import 'firebase_options.dart';
@@ -18,7 +19,7 @@ Future<void> main() async {
       url: 'https://ntfdosxopxbqukesblkc.supabase.co',
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50ZmRvc3hvcHhicXVrZXNibGtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk1Mzk4NzMsImV4cCI6MjA0NTExNTg3M30.dL64ZsfrfwHLaIvWsk0Bdiji3YwBRZCRFwQixNZWrbY');
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()) );
 }
 final SupabaseClient supabase = Supabase.instance.client;
 

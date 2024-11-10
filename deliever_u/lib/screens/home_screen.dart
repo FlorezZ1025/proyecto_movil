@@ -44,15 +44,15 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              StoreCard(
+              const StoreCard(
                   storeName: 'Donde Tavo',
                   description: 'Restaurante',
                   image: ''),
-              StoreCard(
+              const StoreCard(
                   storeName: 'Kiosco Udem',
                   description: 'Comidas Rapidas',
                   image: ''),
-              StoreCard(
+              const StoreCard(
                   storeName: 'Sr Gourmet',
                   description: 'Restaurante',
                   image: ''),
