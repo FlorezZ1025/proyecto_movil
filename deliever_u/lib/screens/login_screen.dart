@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final AuthResponse response = await supabase.auth.signInWithPassword(email: email, password: password);
         final Session? session = response.session;
         final User? user = response.user;
-
+    //TODO crear el provider
     }catch(e){
       setState(() {
         _message = "Error al iniciar sesión";

@@ -1,7 +1,8 @@
+import 'package:rappi_u/main.dart';
 import 'package:rappi_u/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../services/auth_service_mock.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,7 +12,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final AuthService _authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -39,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         cc.isEmpty ||
         phone.isEmpty ||
         lastName.isEmpty) {
-
       setState(() {
         _message = "Todos los campos son requeridos";
       });
@@ -52,12 +51,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
       return;
     }
+    try {
+      final AuthResponse res =
+          await supabase.auth.signUp(email: email, password: password, data: {
+        'name': name,
+        'last_name': lastName,
+        'cc': cc,
+        'phone': phone,
+      });
 
-    final result = await _authService.register(email, password);
-
-    setState(() {
-      _message = result;
-    });
+      context.push('/home');
+    } catch (e) {
+      print(e.toString());
+      setState(() {
+        _message = e.toString();
+      });
+    }
   }
 
   @override

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "383400116638",
+    "project_id": "flutter-rappiu",
+    "storage_bucket": "flutter-rappiu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383400116638:android:0953fe800c244ad486168f",
+        "android_client_info": {
+          "package_name": "com.example.deliever_u"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqV_omGfMSW7uo8oYMNoG3Qip2oun3MzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
+
 import 'router.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  //Inicializando Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  //Inicializando Supabase
   await Supabase.initialize(
       url: 'https://ntfdosxopxbqukesblkc.supabase.co',
       anonKey:
