@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract class AuthDatasource {
 
-  Future<bool> login(String email, String password);
+  Future<User?> login(String email, String password);
+  Stream<User?> getUserSesion();
 
-  
 }

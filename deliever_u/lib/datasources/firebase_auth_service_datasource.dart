@@ -3,24 +3,26 @@ import 'package:rappi_u/datasources/auth_datasource.dart';
 
 class FirebaseAuthServiceDatasource extends AuthDatasource {
   @override
-  Future<bool> login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       print(credential.user);
-      return true;
+      return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        return false;
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        return false;
-      } else {
-        return false;
       }
+      return null;
     }
-
-    throw UnimplementedError();
   }
+
+  @override
+  Stream<User?> getUserSesion() {
+    return FirebaseAuth.instance.idTokenChanges();
+  }
+
+
 }

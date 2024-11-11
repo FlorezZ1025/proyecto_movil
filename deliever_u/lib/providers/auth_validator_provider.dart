@@ -6,7 +6,7 @@ final emailValidatorProvider = Provider<String? Function(String?)>((ref) {
       return 'Ingrese un correo';
     }
 
-    bool emailValid = RegExp('^[^\s@]+@[^\s@]+\.[^s@]+\$').hasMatch(value);
+    bool emailValid = RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}').hasMatch(value);
 
     if (!emailValid) {
       return 'Ingrese un correo válido';

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:rappi_u/screens/auth_validator_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
 import 'screens/all_stores_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +11,9 @@ import 'screens/store_screen.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/auth/login',
   routes: [
-    GoRoute(path: '/auth', redirect: (_, __) => '/auth/login', routes: [
+    GoRoute(path: '/auth', 
+    builder: (context, state) => const AuthValidatorScreen(),
+     routes: [
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),

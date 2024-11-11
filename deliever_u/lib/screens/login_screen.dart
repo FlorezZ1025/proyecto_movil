@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rappi_u/controllers/login_controller.dart';
+import 'package:rappi_u/models/sign_in_params.dart';
+import '../providers/auth_provider.dart';
 import '../providers/auth_validator_provider.dart';
-import '../services/auth_service_mock.dart';
 import 'package:go_router/go_router.dart';
 
 import '../utils/colors.dart';
@@ -14,9 +16,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final AuthService _authService = AuthService();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final GlobalKey<FormState> _signInKey = GlobalKey<FormState>();
 
   String? _message;
@@ -49,6 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
+                    controller: emailController,
                     validator: emailValidator,
                     decoration: const InputDecoration(
                         labelText: 'Correo electrónico',
@@ -59,6 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ))),
                 const SizedBox(height: 16),
                 TextFormField(
+                  controller: passwordController,
                   validator: passwordValidator,
                   decoration: const InputDecoration(
                       labelText: 'Contraseña',
@@ -76,9 +79,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 const SizedBox(height: 32),
                 ElevatedButton(
-                  onPressed: () => {
-                    if(_signInKey.currentState?.validate() ?? false){
-            
+                  onPressed: () {
+                    if (_signInKey.currentState?.validate() ?? false) {
+                      ref
+                          .read(signInControllerProvider.notifier)
+                          .login(emailController.text, passwordController.text);
+                      context.go('/auth');
                     }
                   },
                   child: const Text(
@@ -91,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     setState(() {
                       _message = '';
                     });
-                    context.push('/register');
+                    context.push('/auth/register');
                   },
                   child: const Text(
                     '¿No tienes cuenta? Regístrate',
