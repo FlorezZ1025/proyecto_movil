@@ -13,6 +13,7 @@ final emailValidatorProvider = Provider<String? Function(String?)>((ref) {
     if (!emailValid) {
       return 'Ingrese un correo válido';
     }
+    return null;
   };
 });
 
@@ -25,6 +26,7 @@ final passwordValidatorProvider = Provider<String? Function(String?)>((ref) {
     if (value.length < 6) {
       return 'La contraseña debe tener al menos 6 caracteres';
     }
+    return null;
   };
 });
 
@@ -34,11 +36,13 @@ final nameValidatorProvider = Provider<String? Function(String?)>((ref) {
       return 'Campo vacío';
     }
 
-    bool nameValid = RegExp(r"^[A-ZÁÉÍÓÚÑ][a-zA-ZÁÉÍÓÚÑs'-0-9]{1,50}$").hasMatch(value);
-    
+    bool nameValid =
+        RegExp(r"^[A-ZÁÉÍÓÚÑ][a-zA-ZÁÉÍÓÚÑs'-0-9]{1,50}$").hasMatch(value);
+
     if (!nameValid) {
       return 'Primera letra mayúscula y sin caracteres especiales';
     }
+    return null;
   };
 });
 
@@ -53,6 +57,6 @@ final numberValidatorProvider = Provider<String? Function(String?)>((ref) {
     if (!numberValid) {
       return 'Valor inválido';
     }
+    return null;
   };
 });
-

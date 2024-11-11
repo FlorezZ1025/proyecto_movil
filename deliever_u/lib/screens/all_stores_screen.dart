@@ -39,8 +39,8 @@ class AllStoresScreen extends ConsumerWidget {
                 itemCount: shops.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Número de columnas
-                  childAspectRatio:
-                      3 / 2, // Proporción del ancho/alto de cada ítem
+                  // childAspectRatio:
+                  //     7/5, // Proporción del ancho/alto de cada ítem
                   crossAxisSpacing: 2, // Espacio entre columnas
                   mainAxisSpacing: 2, // Espacio entre filas
                 ),
