@@ -181,8 +181,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           //Registrar
                           ref.read(signInControllerProvider.notifier).register(
                             _emailController.text.trim(),
-                            _passwordController.text.trim()
+                            _passwordController.text.trim(),
+                            _nameController.text.trim(),
+                            _lastNameController.text.trim(),
+                            _phoneController.text.trim(),
+                            _ccController.text.trim()
                           );
+
+
+
+                          context.go('/auth');
                         }
                       },
                       child: const Text('Registrarse',

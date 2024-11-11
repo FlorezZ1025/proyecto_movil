@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/datasources/auth_datasource.dart';
+import 'package:rappi_u/providers/user_provider.dart';
 
 class FirebaseAuthServiceDatasource extends AuthDatasource {
   @override
@@ -20,14 +22,17 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
   }
 
   @override
-  Future<User?> register(String email, String password) async {
+  Future<User?> register(String email, String password, String name,
+      String lastName, String phone, String cc) async {
+        
     try {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       print(credential.user);
+        
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      if(e.code == 'email-already-in-use'){
+      if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
       return null;
