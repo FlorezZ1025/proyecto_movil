@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/datasources/auth_datasource.dart';
-import 'package:rappi_u/providers/user_provider.dart';
 
 class FirebaseAuthServiceDatasource extends AuthDatasource {
   @override

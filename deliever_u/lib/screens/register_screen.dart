@@ -1,11 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/controllers/login_controller.dart';
-import 'package:rappi_u/main.dart';
 import 'package:rappi_u/providers/auth_validator_provider.dart';
 import 'package:rappi_u/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -27,17 +25,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
 
   String? _message;
-
-  void _register() async {
-    final email = _emailController.text;
-    final name = _nameController.text;
-    final lastName = _lastNameController.text;
-    final cc = _ccController.text;
-    final phone = _phoneController.text;
-    final password = _passwordController.text;
-    final confirmPassword = _confirmPasswordController.text;
-  }
-
   @override
   Widget build(BuildContext context) {
     final emailValidator = ref.read(emailValidatorProvider);
@@ -187,9 +174,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             _phoneController.text.trim(),
                             _ccController.text.trim()
                           );
-
-
-
                           context.go('/auth');
                         }
                       },

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rappi_u/providers/shop_provider.dart';
 import '../mocks/data.dart';
 import '../widgets/store_card.dart';
 import '../utils/colors.dart';
 
-class AllStoresScreen extends StatelessWidget {
+class AllStoresScreen extends ConsumerWidget {
   final List<Map<String, String>> stores = Data.stores;
 
   AllStoresScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final shopAsyncValue = ref.watch(shopProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,29 +29,37 @@ class AllStoresScreen extends StatelessWidget {
         child: Column(
           children: [
             const TextField(
-              decoration: InputDecoration(labelText: 'Buscar por nombre', border: OutlineInputBorder()),
-             
+              decoration: InputDecoration(
+                  labelText: 'Buscar por nombre', border: OutlineInputBorder()),
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: GridView.builder(
-                itemCount: stores.length,
+                child: shopAsyncValue.when(
+              data: (shops) => GridView.builder(
+                itemCount: shops.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Número de columnas
-                  childAspectRatio: 3 / 2, // Proporción del ancho/alto de cada ítem
+                  childAspectRatio:
+                      3 / 2, // Proporción del ancho/alto de cada ítem
                   crossAxisSpacing: 2, // Espacio entre columnas
                   mainAxisSpacing: 2, // Espacio entre filas
                 ),
                 itemBuilder: (context, index) {
-                  final store = stores[index];
+                  final shop = shops[index];
                   return StoreCard(
-                    storeName: store['storeName']!,
-                    description: store['description']!,
-                    image: '',
+                    storeName: shop.name,
+                    description: shop.description,
+                    image: shop.imageUrl,
                   );
                 },
               ),
-            ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stackTrace) => Center(
+                child: Text('Error: $error'),
+              ),
+            )),
           ],
         ),
       ),
