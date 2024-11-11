@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/controllers/login_controller.dart';
-import 'package:rappi_u/models/sign_in_params.dart';
-import '../providers/auth_provider.dart';
 import '../providers/auth_validator_provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,11 +16,11 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
   final GlobalKey<FormState> _signInKey = GlobalKey<FormState>();
 
   String? _message;
 
-  void _signInWithEmail() async {}
 
   @override
   Widget build(BuildContext context) {

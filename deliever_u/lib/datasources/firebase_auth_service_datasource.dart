@@ -20,6 +20,21 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
   }
 
   @override
+  Future<User?> register(String email, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      print(credential.user);
+      return credential.user;
+    } on FirebaseAuthException catch (e) {
+      if(e.code == 'email-already-in-use'){
+        print('The account already exists for that email.');
+      }
+      return null;
+    }
+  }
+
+  @override
   Stream<User?> getUserSesion() {
     return FirebaseAuth.instance.idTokenChanges();
   }
@@ -28,5 +43,4 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
-
 }

@@ -10,6 +10,10 @@ class AuthRepository {
   Future<User?> login(SignInParams signInParams) {
     return authDatasource.login(signInParams.email, signInParams.password);
   }
+  
+  Future<User?> register(SignInParams signInParams) {
+    return authDatasource.register(signInParams.email, signInParams.password);
+  }
 
   Stream<User?> get loginStateChanges => authDatasource.getUserSesion();
 

@@ -1,17 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rappi_u/controllers/login_controller.dart';
 import 'package:rappi_u/main.dart';
+import 'package:rappi_u/providers/auth_validator_provider.dart';
 import 'package:rappi_u/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -20,6 +23,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
 
   String? _message;
 
@@ -31,46 +36,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final phone = _phoneController.text;
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
-
-    if (email.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty ||
-        name.isEmpty ||
-        cc.isEmpty ||
-        phone.isEmpty ||
-        lastName.isEmpty) {
-      setState(() {
-        _message = "Todos los campos son requeridos";
-      });
-      return;
-    }
-
-    if (password != confirmPassword) {
-      setState(() {
-        _message = "Las contraseñas no coinciden";
-      });
-      return;
-    }
-    try {
-      final AuthResponse res =
-          await supabase.auth.signUp(email: email, password: password, data: {
-        'name': name,
-        'last_name': lastName,
-        'cc': cc,
-        'phone': phone,
-      });
-
-      context.push('/home');
-    } catch (e) {
-      print(e.toString());
-      setState(() {
-        _message = e.toString();
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final emailValidator = ref.read(emailValidatorProvider);
+    final passwordValidator = ref.read(passwordValidatorProvider);
+    final nameValidator = ref.read(nameValidatorProvider);
+    final numberValidator = ref.read(numberValidatorProvider);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -85,133 +59,147 @@ class _RegisterScreenState extends State<RegisterScreen> {
               constraints: const BoxConstraints(
                 maxWidth: 400,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                        labelText: 'Correo electrónico',
-                        icon: Icon(
-                          Icons.email,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                        labelText: 'Nombre',
-                        icon: Icon(
-                          Icons.person,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _lastNameController,
-                    decoration: const InputDecoration(
-                        labelText: 'Apellido',
-                        icon: Icon(
-                          Icons.person,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _ccController,
-                    decoration: const InputDecoration(
-                        labelText: 'CC',
-                        icon: Icon(
-                          Icons.person,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: const InputDecoration(
-                        labelText: 'Celular',
-                        icon: Icon(
-                          Icons.phone_iphone_rounded,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                        labelText: 'Contraseña',
-                        icon: Icon(
-                          Icons.lock,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _confirmPasswordController,
-                    decoration: const InputDecoration(
-                        labelText: 'Confirmar contraseña',
-                        icon: Icon(
-                          Icons.password_sharp,
-                          color: AppColors.red,
-                        ),
-                        floatingLabelStyle: TextStyle(color: AppColors.red),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.red))),
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 16),
-                  if (_message != null)
-                    Text(
-                      _message!,
-                      style: const TextStyle(color: Colors.red),
+              child: Form(
+                key: _registerKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      validator: emailValidator,
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                          labelText: 'Correo electrónico',
+                          icon: Icon(
+                            Icons.email,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
                     ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: _register,
-                    child: const Text('Registrarse',
-                        style: TextStyle(color: AppColors.black)),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    child: const Text('¿Ya tienes cuenta? Inicia Sesión',
-                        style: TextStyle(color: AppColors.black)),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: nameValidator,
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                          labelText: 'Nombre',
+                          icon: Icon(
+                            Icons.person,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: nameValidator,
+                      controller: _lastNameController,
+                      decoration: const InputDecoration(
+                          labelText: 'Apellido',
+                          icon: Icon(
+                            Icons.person,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: numberValidator,
+                      controller: _ccController,
+                      decoration: const InputDecoration(
+                          labelText: 'CC',
+                          icon: Icon(
+                            Icons.person,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: numberValidator,
+                      controller: _phoneController,
+                      decoration: const InputDecoration(
+                          labelText: 'Celular',
+                          icon: Icon(
+                            Icons.phone_iphone_rounded,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: passwordValidator,
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                          labelText: 'Contraseña',
+                          icon: Icon(
+                            Icons.lock,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      validator: (value){
+                        if(value != _passwordController.text){
+                          return 'Las contraseñas no coinciden';
+                        }
+                        return null;
+                      },
+                      controller: _confirmPasswordController,
+                      decoration: const InputDecoration(
+                          labelText: 'Confirmar contraseña',
+                          icon: Icon(
+                            Icons.password_sharp,
+                            color: AppColors.red,
+                          ),
+                          floatingLabelStyle: TextStyle(color: AppColors.red),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.red))),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    if (_message != null)
+                      Text(
+                        _message!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    const SizedBox(height: 32),
+                    ElevatedButton(
+                      onPressed: () {
+                        if(_registerKey.currentState?.validate() ?? false){
+                          //Registrar
+                          ref.read(signInControllerProvider.notifier).register(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim()
+                          );
+                        }
+                      },
+                      child: const Text('Registrarse',
+                          style: TextStyle(color: AppColors.black)),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: const Text('¿Ya tienes cuenta? Inicia Sesión',
+                          style: TextStyle(color: AppColors.black)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ));
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _nameController.dispose();
-    super.dispose();
   }
 }

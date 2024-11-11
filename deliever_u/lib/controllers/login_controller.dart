@@ -21,6 +21,19 @@ class SignInController extends StateNotifier<SignInState> {
     }
   }
 
+  void register(String email, String password) async {
+    state = const SignInLoading();
+    try {
+      final authRepository = ref.read(authRepositoryProvider);
+      await authRepository
+          .register(SignInParams(email: email, password: password));
+
+      state = const SignInSuccess();
+    } catch (e) {
+      state = SignInError(e.toString());
+    }
+  }
+
   void logout() async {
     final authRepository = ref.read(authRepositoryProvider);
     await authRepository.signOut();
