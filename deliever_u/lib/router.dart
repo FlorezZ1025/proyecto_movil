@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:rappi_u/screens/auth_validator_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
 import 'package:rappi_u/screens/profile_screen.dart';

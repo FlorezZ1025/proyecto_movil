@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/providers/shop_provider.dart';
+import 'package:rappi_u/widgets/shop_option_card.dart';
 import '../mocks/data.dart';
-import '../widgets/store_card.dart';
 import '../utils/colors.dart';
 
 class AllStoresScreen extends ConsumerWidget {
@@ -46,8 +46,8 @@ class AllStoresScreen extends ConsumerWidget {
                 ),
                 itemBuilder: (context, index) {
                   final shop = shops[index];
-                  return StoreCard(
-                    storeName: shop.name,
+                  return StoreOptionCard(
+                    shopName: shop.name,
                     description: shop.description,
                     image: shop.imageUrl,
                   );
