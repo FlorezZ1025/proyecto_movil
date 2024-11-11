@@ -13,4 +13,9 @@ class AuthRepository {
 
   Stream<User?> get loginStateChanges => authDatasource.getUserSesion();
 
+  Future<void> signOut(){
+    return authDatasource.logout();
+  }
+
+
 }

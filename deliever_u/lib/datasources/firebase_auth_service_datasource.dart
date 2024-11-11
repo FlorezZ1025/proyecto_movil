@@ -24,5 +24,9 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
     return FirebaseAuth.instance.idTokenChanges();
   }
 
+  @override
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
 }

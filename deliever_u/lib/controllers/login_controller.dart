@@ -20,6 +20,11 @@ class SignInController extends StateNotifier<SignInState> {
       state = SignInError(e.toString());
     }
   }
+
+  void logout() async {
+    final authRepository = ref.read(authRepositoryProvider);
+    await authRepository.signOut();
+  }
 }
 
 final signInControllerProvider =
