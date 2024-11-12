@@ -56,6 +56,7 @@ class HomeScreen extends ConsumerWidget {
                         itemBuilder: (context, index) {
                         final shop = shops[index];
                         return StoreCard(
+                          idShop: shop.idShop,
                           shopName: shop.name,
                           description: shop.description,
                           image: shop.imageUrl,

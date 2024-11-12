@@ -3,12 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:rappi_u/utils/colors.dart';
 
 class StoreOptionCard extends StatelessWidget {
+  final int idShop;
   final String shopName;
   final String description;
   final String image;
 
   const StoreOptionCard({
     super.key,
+    required this.idShop,
     required this.shopName,
     required this.description,
     required this.image,
@@ -18,7 +20,9 @@ class StoreOptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        context.push('/store');
+        context.push(
+          '/store',
+          extra: idShop);
       },
       child: Card(
           surfaceTintColor: AppColors.red,

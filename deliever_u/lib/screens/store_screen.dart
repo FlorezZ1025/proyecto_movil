@@ -1,18 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rappi_u/utils/colors.dart';
+import 'dart:math';
 
-class StoreScreen extends StatefulWidget {
-  const StoreScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rappi_u/models/shop.dart';
+import 'package:rappi_u/providers/product_provider.dart';
+import 'package:rappi_u/providers/shop_provider.dart';
+import 'package:rappi_u/utils/colors.dart';
+import 'package:rappi_u/widgets/product_card.dart';
+
+class StoreScreen extends ConsumerStatefulWidget {
+  final int idShop;
+
+  const StoreScreen({super.key, required this.idShop});
 
   @override
-  State<StoreScreen> createState() => _StoreScreenState();
+  ConsumerState<StoreScreen> createState() => _StoreScreenState();
 }
 
-class _StoreScreenState extends State<StoreScreen> {
+class _StoreScreenState extends ConsumerState<StoreScreen> {
   final List<String> _cart = [];
 
   void _addToCart(String product) {
+    print(widget.idShop);
     setState(() {
       _cart.add(product);
     });
@@ -27,9 +37,22 @@ class _StoreScreenState extends State<StoreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final shopAsyncValue = ref.watch(shopProvider);
+
+    final productAsyncValue =
+        ref.watch(productProvider(widget.idShop.toString()));
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donde Tavo'),
+        title: shopAsyncValue.when(data: (shops) {
+          final shop =
+              shops.firstWhere((element) => element.idShop == widget.idShop);
+          return Text(shop.name);
+        }, error: (Object error, StackTrace stackTrace) {
+          return const Text('Error');
+        }, loading: () {
+          return const Text('Cargando...');
+        }),
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -61,15 +84,28 @@ class _StoreScreenState extends State<StoreScreen> {
           const SizedBox(
             height: 16.0,
           ),
-          const Center(
+          Center(
             child: Card(
               color: AppColors.blueShade1,
               child: ClipRRect(
-                child: Icon(
-                  Icons.store,
-                  size: 130.0,
-                ),
-              ),
+                  child: shopAsyncValue.when(
+                data: (shops) {
+                  final shop = shops
+                      .firstWhere((element) => element.idShop == widget.idShop);
+                  return Image.network(
+                    shop.imageUrl,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  );
+                },
+                error: (Object error, StackTrace stackTrace) {
+                  return const Text('Error');
+                },
+                loading: () {
+                  return const CircularProgressIndicator();
+                },
+              )),
             ),
           ),
           const SizedBox(height: 16.0),
@@ -81,33 +117,30 @@ class _StoreScreenState extends State<StoreScreen> {
           ),
           const SizedBox(height: 16.0),
           Expanded(
-            child: GridView.builder(
-              itemCount: 20, 
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // Número de columnas
-                childAspectRatio:
-                    4 / 3, // Proporción del ancho/alto de cada ítem
-                crossAxisSpacing: 2, // Espacio entre columnas
-                mainAxisSpacing: 2, // Espacio entre filas
-              ),
+              child: productAsyncValue.when(
+            data: (products) => ListView.builder(
+              itemCount: products.length,
               itemBuilder: (context, index) {
-                // Nombre del producto simulado
-                String productName = 'Producto $index';
-
+                final product = products[index];
                 return GestureDetector(
-                  onTap: () {
-                    _addToCart(productName);
-                  },
-                  child: Column(
-                    children: [
-                      const Icon(Icons.fastfood, size: 50),
-                      Text(productName),
-                    ],
-                  ),
+                    onTap: () {
+                      _addToCart(product.name);
+                    },
+                    child: ProductCard(
+                      name: product.name,
+                      imageUrl: product.imageUrl,
+                      price: product.price,
+                    )
                 );
               },
             ),
-          )
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stackTrace) => Center(
+              child: Text('Error: $error'),
+            ),
+          ))
         ],
       ),
     );

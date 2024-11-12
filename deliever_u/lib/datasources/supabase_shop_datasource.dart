@@ -9,7 +9,7 @@ class SupabaseShopDatasource extends ShopDatasource {
       final supabaseClient = Supabase.instance.client;
       final response = await supabaseClient
           .from('shops')
-          .select('name, description, image_url');
+          .select('id_shop, name, description, image_url');
       return (response)
           .map((e) => Shop.fromMap(e))
           .toList();

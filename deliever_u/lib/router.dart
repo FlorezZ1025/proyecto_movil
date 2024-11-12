@@ -11,26 +11,29 @@ import 'screens/store_screen.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/auth/login',
   routes: [
-    GoRoute(path: '/auth', 
-    builder: (context, state) => const AuthValidatorScreen(),
-     routes: [
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: '/register',
-        builder: (context, state) => const RegisterScreen(),
-      ),
-    ]),
+    GoRoute(
+        path: '/auth',
+        builder: (context, state) => const AuthValidatorScreen(),
+        routes: [
+          GoRoute(
+            path: '/login',
+            builder: (context, state) => const LoginScreen(),
+          ),
+          GoRoute(
+            path: '/register',
+            builder: (context, state) => const RegisterScreen(),
+          ),
+        ]),
     GoRoute(
       path: '/home',
       builder: (context, state) => HomeScreen(),
     ),
     GoRoute(
-      path: '/store',
-      builder: (context, state) => const StoreScreen(),
-    ),
+        path: '/store',
+        builder: (context, state) {
+          final shopId = state.extra;
+          return StoreScreen(idShop: shopId as int);
+        }),
     GoRoute(
       path: '/stores',
       builder: (context, state) => AllStoresScreen(),
@@ -39,8 +42,9 @@ final GoRouter router = GoRouter(
       path: '/order',
       builder: (context, state) => const OrderScreen(),
     ),
-    GoRoute(path: '/profile',
-    builder: (context, state) => const ProfileScreen(),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
     ),
   ],
 );

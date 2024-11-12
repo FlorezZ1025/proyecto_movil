@@ -47,6 +47,7 @@ class AllStoresScreen extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   final shop = shops[index];
                   return StoreOptionCard(
+                    idShop: shop.idShop,
                     shopName: shop.name,
                     description: shop.description,
                     image: shop.imageUrl,
