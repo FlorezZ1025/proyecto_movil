@@ -3,14 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rappi_u/providers/cart_provider.dart';
 import 'package:rappi_u/providers/shop_provider.dart';
-import '../mocks/data.dart';
 import '../utils/colors.dart';
 import '../widgets/store_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
 
-  final List<Map<String, dynamic>> tiendas = Data.foodIcons;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
