@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/providers/shop_provider.dart';
 import 'package:rappi_u/widgets/shop_option_card.dart';
-import '../mocks/data.dart';
 import '../utils/colors.dart';
 
 class AllStoresScreen extends ConsumerWidget {
@@ -33,8 +32,6 @@ class AllStoresScreen extends ConsumerWidget {
                 itemCount: shops.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Número de columnas
-                  // childAspectRatio:
-                  //     7/5, // Proporción del ancho/alto de cada ítem
                   crossAxisSpacing: 2, // Espacio entre columnas
                   mainAxisSpacing: 2, // Espacio entre filas
                 ),

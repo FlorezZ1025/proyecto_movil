@@ -8,7 +8,7 @@ class CartItemsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
-    final totalPrice = ref.watch(cartProvider.notifier).totalPrice;
+    final cartNotifier = ref.watch(cartProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Carrito')),
@@ -29,9 +29,12 @@ class CartItemsScreen extends ConsumerWidget {
                           icon: const Icon(Icons.remove_circle),
                           onPressed: () {
                             if (item.quantity > 1) {
-                              ref.read(cartProvider.notifier).updateQuantity(item.productId, item.quantity - 1);
+                              ref.read(cartProvider.notifier).updateQuantity(
+                                  item.productId, item.quantity - 1);
                             } else {
-                              ref.read(cartProvider.notifier).removeProduct(item);
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .removeProduct(item);
                             }
                           },
                         ),
@@ -41,10 +44,33 @@ class CartItemsScreen extends ConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(25.0),
-                  child: Text('Total: \$$totalPrice'),
+                  child: Text('Total: \$${cartNotifier.totalPrice}'),
                 ),
+         
               ],
             ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          
+          onPressed: () async {
+            if (cartItems.isEmpty) {
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("El carrito está vacío")),
+              );
+              return;
+            }
+            await ref.read(cartProvider.notifier).completeOrder();
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Pedido realizado con éxito!")),
+            );
+          },
+          
+          child: const Text("Realizar pedido"),
+        ),
+      ),
     );
   }
 }

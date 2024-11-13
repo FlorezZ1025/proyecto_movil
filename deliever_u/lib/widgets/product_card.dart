@@ -24,6 +24,7 @@ class ProductCard extends ConsumerWidget {
       (item) => item.productId == productId,
       orElse: () => CartItem(
         productId: productId,
+        imageUrl: imageUrl,
         name: name,
         price: price,
         quantity: 0,
@@ -65,7 +66,7 @@ class ProductCard extends ConsumerWidget {
               icon: const Icon(Icons.add),
               onPressed: () {
                 //aumentar uno
-                final newCartItem = CartItem(productId: productId, name: name, price: price);
+                final newCartItem = CartItem(productId: productId, imageUrl: imageUrl, name: name, price: price);
                 ref.read(cartProvider.notifier).addProduct(newCartItem);
               },
             ),

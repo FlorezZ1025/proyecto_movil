@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_u/models/cart_item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider extends StateNotifier<List<CartItem>> {
   CartProvider() : super([]);
@@ -13,6 +15,7 @@ class CartProvider extends StateNotifier<List<CartItem>> {
           if (i == index)
             CartItem(
                 productId: state[i].productId,
+                imageUrl: state[i].imageUrl,
                 name: state[i].name,
                 price: state[i].price,
                 quantity: state[i].quantity + 1)
@@ -22,7 +25,7 @@ class CartProvider extends StateNotifier<List<CartItem>> {
     } else {
       state = [...state, cartItem];
     }
-  } 
+  }
 
   void removeProduct(CartItem cartItem) {
     state =
@@ -35,6 +38,7 @@ class CartProvider extends StateNotifier<List<CartItem>> {
         if (item.productId == productId)
           CartItem(
             productId: item.productId,
+            imageUrl: item.imageUrl,
             name: item.name,
             price: item.price,
             quantity: quantity,
@@ -44,12 +48,51 @@ class CartProvider extends StateNotifier<List<CartItem>> {
     ];
   }
 
-  void clearCart() {
-    state.clear();
-    state = List.from(state);
+  int get totalPrice =>
+      state.fold(0, (total, current) => total + current.totalPrice);
+
+  Future<void> completeOrder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<Map<String, dynamic>> orderItems = state
+        .map((item) => {
+              'productId': item.productId,
+              'imageUrl': item.imageUrl,
+              'name': item.name,
+              'price': item.price,
+              'quantity': item.quantity,
+            })
+        .toList();
+    await prefs.setString('lastOrder', jsonEncode(orderItems));
+
+    state = [];
   }
-  int get totalPrice => state.fold(0, (total, current) => total + current.totalPrice);
+
+  Future<List<Map<String, dynamic>>> getLastOrder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastOrder = prefs.getString('lastOrder');
+    if (lastOrder != null) {
+      return List<Map<String, dynamic>>.from(jsonDecode(lastOrder));
+    }
+    return [];
+  }
+
+  Future<void> loadCartFromPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cartData = prefs.getString('lastOrder');
+    if (cartData != null) {
+      final List<dynamic> decodedData = jsonDecode(cartData);
+      state = decodedData.map((item) => CartItem.fromMap(item)).toList();
+    }
+  }
+
+  Future<void> saveCartToPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cartData = jsonEncode(state.map((item) => item.toMap()).toList());
+    prefs.setString('lastOrder', cartData);
+  }
 }
 
- final cartProvider = StateNotifierProvider<CartProvider, List<CartItem>>(
-      (ref) => CartProvider()); 
+final cartProvider = StateNotifierProvider<CartProvider, List<CartItem>>((ref) {
+  final cartProvider = CartProvider();
+  return cartProvider;
+});

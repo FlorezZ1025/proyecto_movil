@@ -12,10 +12,19 @@ class Product {
     required this.price,
     required this.shopId,
   });
+  
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'imageUrl': imageUrl,
+      'price': price,
+    };
+  }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id_product'] ,
+      id: map['id_product'],
       name: map['name'],
       imageUrl: map['image'],
       price: map['price'],
