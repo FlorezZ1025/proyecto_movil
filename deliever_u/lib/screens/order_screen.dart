@@ -17,8 +17,8 @@ class OrderScreen extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: const BorderSide(
-                    color: Colors.black, // Color del borde
-                    width: 10.0, // Grosor del borde
+                    color: Colors.black,
+                    width: 10.0, 
                   ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(

@@ -49,6 +49,6 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/cart',
-      builder: (context, state) =>  CartItemsScreen(), )
+      builder: (context, state) =>  const CartItemsScreen(), )
   ],
 );

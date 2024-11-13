@@ -44,11 +44,7 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
               context.push('/cart');
             },
           ),
-          IconButton(
-              onPressed: () {
-                context.push('/order');
-              },
-              icon: const Icon(Icons.abc_rounded))
+         
         ],
       ),
       body: Column(

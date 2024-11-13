@@ -75,21 +75,6 @@ class CartProvider extends StateNotifier<List<CartItem>> {
     }
     return [];
   }
-
-  Future<void> loadCartFromPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final cartData = prefs.getString('lastOrder');
-    if (cartData != null) {
-      final List<dynamic> decodedData = jsonDecode(cartData);
-      state = decodedData.map((item) => CartItem.fromMap(item)).toList();
-    }
-  }
-
-  Future<void> saveCartToPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final cartData = jsonEncode(state.map((item) => item.toMap()).toList());
-    prefs.setString('lastOrder', cartData);
-  }
 }
 
 final cartProvider = StateNotifierProvider<CartProvider, List<CartItem>>((ref) {

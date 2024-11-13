@@ -7,7 +7,7 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(credential.user);
+      //print(credential.user);
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -26,7 +26,7 @@ class FirebaseAuthServiceDatasource extends AuthDatasource {
     try {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      print(credential.user);
+      // print(credential.user);
         
       return credential.user;
     } on FirebaseAuthException catch (e) {
