@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rappi_u/models/shop.dart';
 import 'package:rappi_u/providers/product_provider.dart';
 import 'package:rappi_u/providers/shop_provider.dart';
 import 'package:rappi_u/utils/colors.dart';
@@ -19,21 +16,8 @@ class StoreScreen extends ConsumerStatefulWidget {
 }
 
 class _StoreScreenState extends ConsumerState<StoreScreen> {
-  final List<String> _cart = [];
 
-  void _addToCart(String product) {
-    print(widget.idShop);
-    setState(() {
-      _cart.add(product);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$product añadido al carrito'),
-        duration: const Duration(seconds: 1),
-      ),
-    );
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -57,19 +41,7 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return ListView.builder(
-                    itemCount: _cart.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(_cart[index]),
-                      );
-                    },
-                  );
-                },
-              );
+              context.push('/cart');
             },
           ),
           IconButton(
@@ -122,15 +94,11 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
               itemCount: products.length,
               itemBuilder: (context, index) {
                 final product = products[index];
-                return GestureDetector(
-                    onTap: () {
-                      _addToCart(product.name);
-                    },
-                    child: ProductCard(
+                return ProductCard(
+                      productId: product.id,
                       name: product.name,
                       imageUrl: product.imageUrl,
                       price: product.price,
-                    )
                 );
               },
             ),

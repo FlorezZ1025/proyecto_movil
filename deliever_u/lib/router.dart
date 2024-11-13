@@ -1,4 +1,5 @@
 import 'package:rappi_u/screens/auth_validator_screen.dart';
+import 'package:rappi_u/screens/cart_items_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
 import 'package:rappi_u/screens/profile_screen.dart';
 import 'screens/all_stores_screen.dart';
@@ -36,7 +37,7 @@ final GoRouter router = GoRouter(
         }),
     GoRoute(
       path: '/stores',
-      builder: (context, state) => AllStoresScreen(),
+      builder: (context, state) => const AllStoresScreen(),
     ),
     GoRoute(
       path: '/order',
@@ -46,5 +47,8 @@ final GoRouter router = GoRouter(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
     ),
+    GoRoute(
+      path: '/cart',
+      builder: (context, state) =>  CartItemsScreen(), )
   ],
 );

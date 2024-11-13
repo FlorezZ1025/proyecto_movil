@@ -17,6 +17,5 @@ final productProvider =
   final productRepository = ref.read(productRepositoryProvider);
   final products =
       await productRepository.getProductsByShopId(int.parse(idShop));
-  print('Products: $products');
   return products;
 });

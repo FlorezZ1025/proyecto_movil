@@ -7,7 +7,7 @@ class SupabaseUserDatasource extends UserDatasource {
       String lastName, String phone, String cc) async {
     try {
       final supabaseClient = Supabase.instance.client;
-      final response = await supabaseClient.from('users').insert({
+      await supabaseClient.from('users').insert({
         'email': email,
         'password': password,
         'first_name': name,

@@ -6,9 +6,7 @@ import '../mocks/data.dart';
 import '../utils/colors.dart';
 
 class AllStoresScreen extends ConsumerWidget {
-  final List<Map<String, String>> stores = Data.stores;
-
-  AllStoresScreen({super.key});
+  const AllStoresScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,11 +26,7 @@ class AllStoresScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const TextField(
-              decoration: InputDecoration(
-                  labelText: 'Buscar por nombre', border: OutlineInputBorder()),
-            ),
-            const SizedBox(height: 16.0),
+            
             Expanded(
                 child: shopAsyncValue.when(
               data: (shops) => GridView.builder(

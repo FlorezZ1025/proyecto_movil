@@ -50,10 +50,9 @@ class HomeScreen extends ConsumerWidget {
             const SizedBox(height: 10),
             Expanded(
               child: shopAsyncValue.when(
-                  data: (shops) =>
-                      ListView.builder(
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
+                  data: (shops) => ListView.builder(
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
                         final shop = shops[index];
                         return StoreCard(
                           idShop: shop.idShop,
@@ -69,7 +68,6 @@ class HomeScreen extends ConsumerWidget {
                         child: CircularProgressIndicator(),
                       )),
             ),
-            
             const SizedBox(height: 10),
             Center(
                 child: TextButton(
@@ -109,6 +107,12 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push('/cart');
+        },
+        child: const Icon(Icons.shopping_cart),
       ),
     );
   }
