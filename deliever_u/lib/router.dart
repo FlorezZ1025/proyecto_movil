@@ -1,6 +1,8 @@
 import 'package:rappi_u/screens/auth_validator_screen.dart';
 import 'package:rappi_u/screens/cart_items_screen.dart';
+import 'package:rappi_u/screens/home_delivery_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
+import 'package:rappi_u/screens/product_detail_screen.dart';
 import 'package:rappi_u/screens/profile_screen.dart';
 import 'screens/all_stores_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +20,7 @@ final GoRouter router = GoRouter(
         routes: [
           GoRoute(
             path: '/login',
-            builder: (context, state) => const LoginScreen(),
+            builder: (context, state) => const HomeDeliveryScreen(),
           ),
           GoRoute(
             path: '/register',
@@ -49,6 +51,19 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/cart',
-      builder: (context, state) =>  const CartItemsScreen(), )
+      builder: (context, state) =>  const CartItemsScreen(), ),
+GoRoute(
+path: '/product/:id',
+builder: (context, state) {
+final args = state.extra as Map<String, dynamic>? ?? {};
+
+return ProductDetailScreen(
+productName: args['name'] ?? 'Producto',
+imagePath: args['imagePath'] ?? 'assets/images/default.jpg',
+price: args['price']?.toDouble() ?? 0.0,
+description: args['description'] ?? 'Descripción no disponible',
+);
+},
+),
   ],
 );
