@@ -4,6 +4,7 @@ import 'package:rappi_u/screens/home_delivery_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
 import 'package:rappi_u/screens/product_detail_screen.dart';
 import 'package:rappi_u/screens/profile_screen.dart';
+import 'package:rappi_u/screens/restaurant_screen.dart';
 import 'screens/all_stores_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/home_screen.dart';
@@ -65,5 +66,17 @@ description: args['description'] ?? 'Descripción no disponible',
 );
 },
 ),
+    GoRoute(
+      path: '/restaurant/:name',
+      builder: (context, state) {
+        final name = state.pathParameters['name']!;
+        final extra = state.extra as Map<String, dynamic>;
+
+        return RestaurantScreen(
+          restaurantName: name,
+          specialty: extra['specialty'] ?? 'Comida',
+        );
+      },
+    ),
   ],
 );

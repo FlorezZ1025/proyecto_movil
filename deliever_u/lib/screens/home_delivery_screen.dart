@@ -70,7 +70,7 @@ class HomeDeliveryScreen extends StatelessWidget {
         children: [
           _buildFoodCategoriesCarousel(), // Carrusel modificado
           _buildPopularItemsSection(context), // Nueva sección de ítems populares
-          _buildRestaurantsList(),
+          _buildRestaurantsList(context),
         ],
       ),
     );
@@ -261,7 +261,7 @@ class HomeDeliveryScreen extends StatelessWidget {
         'Producto preparado con ingredientes frescos y de la mejor calidad.';
   }
 
-  Widget _buildRestaurantsList() {
+  Widget _buildRestaurantsList(BuildContext context) {
     List<Map<String, dynamic>> restaurants = [
       {
         'name': 'Tarcisio',
@@ -270,13 +270,13 @@ class HomeDeliveryScreen extends StatelessWidget {
         'deliveryTime': '15-25 min'
       },
       {
-        'name': 'Tarcisio 2',
+        'name': 'El Kiosko',
         'rating': '4.5 ⭐',
         'specialty': 'Papas y Snacks',
         'deliveryTime': '10-20 min'
       },
       {
-        'name': 'Tarcisio 3',
+        'name': 'Donde Juan',
         'rating': '4.7 ⭐',
         'specialty': 'Pizzas',
         'deliveryTime': '20-30 min'
@@ -298,55 +298,74 @@ class HomeDeliveryScreen extends StatelessWidget {
             shrinkWrap: true,
             itemCount: restaurants.length,
             itemBuilder: (ctx, index) {
-              return Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                restaurants[index]['name'],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Chip(
-                                label: Text(restaurants[index]['rating']),
-                                backgroundColor: Colors.green[100],
-                              ),
-                            ],
+              return GestureDetector(
+                onTap: () {
+                  context.push('/restaurant/${restaurants[index]['name']}', extra: {
+                    'name': restaurants[index]['name'],
+                    'specialty': restaurants[index]['specialty'],
+                  });
+                },
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(12)),
+                        child: Image.asset(
+                          'assets/images/restaurant_${index + 1}.jpg',
+                          height: 150,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            height: 150,
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.restaurant, size: 50),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            restaurants[index]['specialty'],
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              const Icon(Icons.access_time, size: 16),
-                              const SizedBox(width: 4),
-                              Text(restaurants[index]['deliveryTime']),
-                              const Spacer(),
-                              Icon(Icons.star_border, color: AppColors.red),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  restaurants[index]['name'],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                                Chip(
+                                  label: Text(restaurants[index]['rating']),
+                                  backgroundColor: Colors.green[100],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              restaurants[index]['specialty'],
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_time, size: 16),
+                                const SizedBox(width: 4),
+                                Text(restaurants[index]['deliveryTime']),
+                                const Spacer(),
+                                Icon(Icons.star_border, color: AppColors.red),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
