@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rappi_u/screens/product_detail_screen.dart';
 import 'package:rappi_u/utils/colors.dart';
+
+import '../providers/provider.dart';
 
 class HomeDeliveryScreen extends StatelessWidget {
   const HomeDeliveryScreen({super.key});
@@ -10,13 +13,13 @@ class HomeDeliveryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +43,56 @@ class HomeDeliveryScreen extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.person),
-          onPressed: () {},
+          onPressed: () {
+            // Navegación a perfil
+            context.push('/profile');
+          },
+        ),
+        Consumer(
+          builder: (context, ref, _) {
+            final cart = ref.watch(newCartProvider);
+            final itemCount = cart.items.fold(0, (sum, item) => sum + item.quantity);
+
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    // Navegación a carrito solo si hay items
+                    if (itemCount > 0) {
+                      context.push('/cart');
+                    }
+                  },
+                ),
+                if (itemCount > 0)
+                  Positioned(
+                    right: 4,
+                    top: 4,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
+                      child: Text(
+                        itemCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ],
       bottom: PreferredSize(
@@ -57,6 +109,7 @@ class HomeDeliveryScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 0),
             ),
           ),
         ),

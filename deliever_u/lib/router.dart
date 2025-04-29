@@ -1,5 +1,6 @@
 import 'package:rappi_u/screens/auth_validator_screen.dart';
 import 'package:rappi_u/screens/cart_items_screen.dart';
+import 'package:rappi_u/screens/cart_screen.dart';
 import 'package:rappi_u/screens/home_delivery_screen.dart';
 import 'package:rappi_u/screens/order_screen.dart';
 import 'package:rappi_u/screens/product_detail_screen.dart';
@@ -51,7 +52,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const ProfileScreen(),
     ),
     GoRoute(
-      path: '/cart',
+      path: '/cartt',
       builder: (context, state) =>  const CartItemsScreen(), ),
 GoRoute(
 path: '/product/:id',
@@ -62,7 +63,7 @@ return ProductDetailScreen(
 productName: args['name'] ?? 'Producto',
 imagePath: args['imagePath'] ?? 'assets/images/default.jpg',
 price: args['price']?.toDouble() ?? 0.0,
-description: args['description'] ?? 'Descripción no disponible',
+description: args['description'] ?? 'Descripción no disponible', rating: '',
 );
 },
 ),
@@ -77,6 +78,10 @@ description: args['description'] ?? 'Descripción no disponible',
           specialty: extra['specialty'] ?? 'Comida',
         );
       },
+    ),
+    GoRoute(
+      path: '/cart',
+      builder: (context, state) => const CartScreen(),
     ),
   ],
 );
